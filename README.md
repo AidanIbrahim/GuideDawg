@@ -5,7 +5,6 @@ Disability GPS (Working Title)
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 - [Credits](#credits)
@@ -16,14 +15,11 @@ TBD
 ## Usage
 TBD
 
-## Contributing
-Explain how others can contribute to your project.
-
 ## License
-State the license under which your project is distributed.
+GNU GPLv3
 
 ## Contact
-Provide contact information for questions or feedback.
+aibrahi3@umbc.edu
 
 ## Credits
-Acknowledge collaborators, libraries, or resources used.
+Authors: Aidan Ibrahim, Caleb Moesner, Lisa Ozaki
