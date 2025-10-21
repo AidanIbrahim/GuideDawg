@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>routeview</title>
+        <link rel="stylesheet" href="routeview.css">
+    </head>
+    <body>
+        <div class="currentDirection">
+            <image id="directionIcon"></image>
+            <h1 id="direction">current direction</h1>
+            <p id="directionDistance">x distance</p>
+        </div>
+        <div class="mapView"></div>
+        <div class="sideButtons">
+            <button id="ttsDirection">TTS current direction</button>
+            <button id="exitRoute">Exit Route</button>
+            <button id="changeRoute">Change Route</button>
+            <button id="reportPath">Report Path</button>
+            <button id="nextDirection">Next Direction</button>
+        </div>
+        <div class="routeInfo">
+            <p id="etaTime">12:00</p>
+            <p id="etaMinutes">x minutes</p>
+            <p id="etaDistance">x miles</p>
+        </div>
+    </body>
+</html>
+
+<!--
+    Directions should also be stored somewhere else, and then displayed here.
+-->
