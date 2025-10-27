@@ -1,0 +1,91 @@
+/* Base */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Main grid layout */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height: 100vh;
+}
+
+/* LEFT COLUMN (Route List) */
+.routeList {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border-right: 2px solid #ccc;
+  background-color: #f8fafc;
+}
+
+.route {
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.routeName {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.routeInfo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+}
+
+.favorite {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.favorite img {
+  width: 20px;
+  height: 20px;
+}
+
+/* RIGHT COLUMN (Map + Info) */
+.columnTwo {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Filter Bar */
+.filterBar {
+  background-color: #d9d9d9;
+  padding: 15px;
+  text-align: center;
+}
+
+#tagFilter {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #999;
+  font-size: 14px;
+}
+
+/* Map Section */
+.mapView {
+  flex: 1;
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Info Footer */
+.selectionOptions {
+  background-color: #f8fafc;
+  padding: 15px;
+  border-top: 2px solid #ccc;
+  text-align: center;
+  font-size: 14px;
+}
