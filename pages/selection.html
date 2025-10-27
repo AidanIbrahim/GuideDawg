@@ -1,72 +1,88 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Selection</title>
+  <link rel="stylesheet" href="selection.css">
+</head>
+<body>
+  <div class="columns">
+    <!-- LEFT COLUMN -->
+    <div class="routeList">
 
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>selection</title>
-        <link rel="stylesheet" href="selection.css">
-    </head>
-    <body>
-        <div class = "columns">
-            <div class="routeList">
-                <div id="route"
-                    <p id="routeNameOne">route name</p>
-                    <div id="routeInfo">
-                        <p id="distanceOne">distance</p>
-                        <p id="ETAOne">eta</p>
-                        <p id="ratingOne">rating</p>
-                        <button id="favorite"><image src="FavNoFill.png"></image></button>
-                    </div>
-                </div>
-                <div id="route">
-                    <p id="routeNameTwo">route name</p>
-                    <div id="routeInfo">
-                        <p id="distanceTwo">distance</p>
-                        <p id="ETATwo">eta</p>
-                        <p id="ratingTwo">rating</p>
-                        <button id="favorite"><image src="FavNoFill.png"></image></button>
-                    </div>
-                </div>
-                <div id="route">
-                    <div id="routeInfo"></div>
-                    <p id="routeNameThree">route name</p>
-                        <p id="distanceThree">distance</p>
-                        <p id="ETAThree">eta</p>
-                        <p id="ratingThree">rating</p>
-                        <button id="favorite"><image src="FavNoFill.png"></image></button>
-                    </div>
-                </div>
-                <div id="route">
-                    <div id="routeInfo"></div>
-                    <p id="routeNameFour">route name</p>
-                        <p id="distanceFour">distance</p>
-                        <p id="ETAFour">eta</p>
-                        <p id="ratingFour">rating</p>
-                        <button id="favorite"><image src="FavNoFill.png"></image></button>
-                    </div>
-                </div>
-                <div id="route">
-                    <div id="routeInfo">
-                    <p id="routeNameFive">route name</p>
-                        <p id="distanceFive">distance</p>
-                        <p id="ETAFive">eta</p>
-                        <p id="ratingFive">rating</p>
-                        <button id="favorite"><image src="FavNoFill.png"></image></button>
-                    </div>
-                </div>
-            </div>
-            <div class="columnTwo">
-                <select id="tagFilter">Filter for Tag</select>
-                <div class="mapView">
-                    <iframe src="UMBC_StreetMap.html"></iframe>
-                </div>
-                <div class="selectionOptions">
-                    <button id="favoriteRoute">Favorite</button>
-                    <a href="routeview.html"><button id="startRoute">Start Directions</button></a>
-                </div>
-            </div>
+      <div class="route">
+        <p class="routeName">Route 1</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="FavNoFill.png" alt="favorite"></button>
         </div>
-    </body>
+      </div>
+
+      <div class="route">
+        <p class="routeName">Route 2</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="FavNoFill.png" alt="favorite"></button>
+        </div>
+      </div>
+
+      <div class="route">
+        <p class="routeName">Route 3</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="FavNoFill.png" alt="favorite"></button>
+        </div>
+      </div>
+
+      <div class="route">
+        <p class="routeName">Route 4</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="FavNoFill.png" alt="favorite"></button>
+        </div>
+      </div>
+
+      <div class="route">
+        <p class="routeName">Route 5</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="FavNoFill.png" alt="favorite"></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="columnTwo">
+      <div class="filterBar">
+        <select id="tagFilter">
+          <option>Filter for tags</option>
+        </select>
+      </div>
+
+      <div class="mapView">
+        <iframe src="UMBC_StreetMap.html"></iframe>
+      </div>
+
+      <div class="selectionOptions">
+        Additional info about a route currently being previewed,
+        such as any reported paths on its route, tags.
+            <button id="favoriteRoute">Favorite</button>
+            <a href="routeview.html"><button id="startRoute">Start Directions</button></a>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
 
 <!--
