@@ -1,6 +1,6 @@
 # Project Title
 
-Disability GPS
+GuideDawg
 
 ## Table of Contents
 - [Installation](#installation)
