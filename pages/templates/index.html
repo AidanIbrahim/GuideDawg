@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    </head>
+    <body>
+        <div>
+            <div class = "inputs">
+                <textarea id="startLocation">Enter starting location</textarea>
+                <textarea id="endLocation">Enter destination</textarea>
+                <a href="/map-view"><button id="startSearch">Search for routes</button></a>
+            </div>
+        </div>
+    </body>
+</html>
+<!--
+    FUNCTION OF INPUTS CLASS
+    -Both text areas are going to need to take in a list of names of points on campus,
+    showing the most related points to the current typed in search.
+
+    -Start search should activate some function that logs both start and end location,
+    and determines creates a few possible routes.
+-->
