@@ -5,9 +5,9 @@ from psycopg2 import sql
 app = Flask(__name__)
 
 conn = psycopg2.connect(
-    dbname="insert_your_db_name",
-    user="insert_username",
-    password="insert_pw",
+    dbname="",
+    user="",
+    password="",
     host="localhost",
     port="5432"
 )
@@ -20,22 +20,22 @@ def home():
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password_hash = request.form['password']
 
         cur = conn.cursor()
 
         cur.execute(
-            sql.SQL("SELECT * FROM users WHERE username = %s AND password = %s"),
-            (username, password)
+            sql.SQL("SELECT * FROM users WHERE username = %s AND password_hash = %s"),
+            (username, password_hash)
         )
 
         user = cur.fetchone()
         cur.close()
 
         if (user):
-            return redirect('/home')
+            return redirect('/index')
         else:
-            return "Invalid username or password", 401
+            return render_template('login.html', error="Invalid username or password.")
     return render_template('login.html')
 
 @app.route('/create_account', methods=['POST', 'GET'])
@@ -55,6 +55,18 @@ def create_account():
         conn.commit()
         cur.close()
     return render_template('create_acc.html')
+
+@app.route('/map-view')
+def view_map():
+    return render_template('selection.html')
+
+@app.route('/index')
+def select_location():
+    return render_template('index.html')
+
+@app.route('/route-view')
+def route_view():
+    return render_template('routeview.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

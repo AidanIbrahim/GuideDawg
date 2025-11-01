@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Log In</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    </head>
+    <body>
+        <main>
+            <div style="text-align: center;">
+                <img src="{{ url_for('static', filename='GuideDawg(1)(1).png') }}" alt="GuideDawg logo" class="logo">
+                <div class="login-box">
+                    <div class = "login-header">
+                        <h1 style="display: inline;">Log In</h1>
+                        <p style="display: inline; margin-left: 10px;">or <a href="/create_account">Create an Account</a></p>
+                    </div>
+                        <form action="/login" method="POST">
+                        <div class = "input-group">
+                            <label>Email Address/Username</label>
+                            <input type="text" id="username" name="username" required><br><br>
+                        </div>
+
+                        <div class = "input-group">
+                            <label>Password</label>
+                            <input type="text" id="password" name="password" required><br><br>
+                        </div>
+                        <button type="submit">Log In</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
