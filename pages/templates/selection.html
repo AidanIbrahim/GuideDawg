@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- load JS libraries (copied from UMBC_StreetMap.html to make map dynamic) -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
 
+  <!-- load CSS libraries -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
@@ -35,55 +37,22 @@
   <div class="columns">
     <!-- LEFT COLUMN -->
     <div class="routeList">
-      <div class="route">
-        <p class="routeName">Route 1</p>
-        <div class="routeInfo">
-          <p>distance</p>
-          <p>ETA</p>
-          <p>rating</p>
-          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
+      {% for rank, geoms in routes.items() %}
+        <div class="route" onclick="showRoute({{ rank }})">
+          <p class="routeName">Route {{ rank }}</p>
+          <div class="routeInfo">
+            <p>{{ geoms|length }} segments</p>
+            <p>{{ "%.2f"|format( geoms|length * 0.5 ) }} min</p>
+            <p>rating TBD</p>
+            <!-- star button for each route -->
+            <button class="favorite" onclick="toggleStar({{ rank }})">
+              <img id="star-{{ rank }}" 
+                src="{{ url_for('static', filename='FavNoFill.png') }}" 
+                data-starred="false">
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div class="route">
-        <p class="routeName">Route 2</p>
-        <div class="routeInfo">
-          <p>distance</p>
-          <p>ETA</p>
-          <p>rating</p>
-          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
-        </div>
-      </div>
-
-      <div class="route">
-        <p class="routeName">Route 3</p>
-        <div class="routeInfo">
-          <p>distance</p>
-          <p>ETA</p>
-          <p>rating</p>
-          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
-        </div>
-      </div>
-
-      <div class="route">
-        <p class="routeName">Route 4</p>
-        <div class="routeInfo">
-          <p>distance</p>
-          <p>ETA</p>
-          <p>rating</p>
-          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
-        </div>
-      </div>
-
-      <div class="route">
-        <p class="routeName">Route 5</p>
-        <div class="routeInfo">
-          <p>distance</p>
-          <p>ETA</p>
-          <p>rating</p>
-          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
-        </div>
-      </div>
+      {% endfor %}
 
     </div>
 
@@ -107,33 +76,112 @@
         <button id="favoriteRoute">Favorite</button>
         <a href="/route-view"><button id="startRoute">Start Directions</button></a>
       </div>
-
-      <!-- Leaflet map script -->
-      <script>
-        var map = L.map('map').setView([39.25, -76.71], 16);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19
-        }).addTo(map);
-
-        var path = {{ path|tojson }};
-        console.log("Raw path nodes:", path);
-
-        if (path) {
-            var latlngs = path.map(function(geojson) {
-                var geom = JSON.parse(geojson);
-                return [geom.coordinates[1], geom.coordinates[0]];
-            });
-
-            var routeLine = L.polyline(latlngs, {color: 'blue'}).addTo(map);
-            map.fitBounds(routeLine.getBounds());
-
-            window.routeNodes = latlngs;
-        }
-      </script>
-
     </div>
   </div>
+
+  <!-- initialize map and display selected route -->
+  <script>
+    var routes = {{ routes|tojson }}; // all route data from server
+
+    var map = L.map('map').setView([39.25, -76.71], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
+
+    var routeLayer = null;
+
+    function showRoute(rank) {
+        // remove previously drawn route
+        if (routeLayer) {
+            map.removeLayer(routeLayer);
+        }
+        
+        // convert GeoJSON for selected route
+        var featureCollection = {
+            "type": "FeatureCollection",
+            "features": routes[rank].map(function(g) {
+                return {
+                    "type": "Feature",
+                    "geometry": JSON.parse(g)
+                };
+            })
+        };
+        
+        // draw route on map
+        routeLayer = L.geoJSON(featureCollection, {
+            style: { color: 'blue', weight: 4 }
+        }).addTo(map);
+        
+        // zoom to fit route
+        map.fitBounds(routeLayer.getBounds());
+    }
+
+    // show route 1 by default
+    showRoute(1);
+  </script>
+
+  <!-- star/unstar functionality -->
+  <script>
+  function toggleStar(rank) {
+      let img = document.getElementById("star-" + rank);
+      let isStarred = img.dataset.starred === "true";
+
+      if (!isStarred) {
+          // star the route
+          fetch("/star-route", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                  rank: rank,
+                  geometry: routes[rank]  // GeoJSON path
+              })
+          })
+          .then(response => response.json())
+          .then(data => {
+              // change to filled star
+              img.src = "/static/FavFill.png";
+              img.dataset.starred = "true";
+          })
+          .catch(err => console.error(err));
+
+      } else {
+          // unstar route
+          fetch("/unstar-route", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ rank: rank })
+          })
+          .then(response => response.json())
+          .then(data => {
+              // change to empty star
+              img.src = "/static/FavNoFill.png";
+              img.dataset.starred = "false";
+          })
+          .catch(err => console.error(err));
+      }
+  }
+
+  // check if any routes are already starred
+  document.addEventListener("DOMContentLoaded", function() {
+      for (let rank in routes) {
+          fetch("/check-star", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ rank: rank })
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.starred) {
+                  let img = document.getElementById("star-" + rank);
+                  img.src = "/static/FavFill.png";
+                  img.dataset.starred = "true";
+              }
+          })
+          .catch(err => console.error(err));
+      }
+  });
+  </script>
 </body>
 </html>
 
