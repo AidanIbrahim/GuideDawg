@@ -9,8 +9,10 @@ body, html {
 /* Main grid layout */
 .columns {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 350px 1fr;
+  grid-template-rows: 100%;
   height: 100vh;
+  overflow: hidden;
 }
 
 /* LEFT COLUMN (Route List) */
@@ -39,12 +41,6 @@ body, html {
   align-items: center;
 }
 
-.favorite {
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
 .favorite img {
   width: 20px;
   height: 20px;
@@ -54,38 +50,37 @@ body, html {
 .columnTwo {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Filter Bar */
 .filterBar {
+  padding: 10px;
   background-color: #d9d9d9;
-  padding: 15px;
-  text-align: center;
 }
 
 #tagFilter {
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: 1px solid #999;
-  font-size: 14px;
+  width: 200px;
+  padding: 5px;
 }
 
 /* Map Section */
 .mapView {
   flex: 1;
+  display: flex;
 }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
+#map {
+  flex: 1;
+  min-height: 400px;
 }
 
 /* Info Footer */
 .selectionOptions {
-  background-color: #f8fafc;
+  flex-shrink: 0;
   padding: 15px;
+  background-color: #f8fafc;
   border-top: 2px solid #ccc;
   text-align: center;
-  font-size: 14px;
 }
