@@ -51,6 +51,13 @@
                 data-starred="false">
             </button>
           </div>
+      <div class="route">
+        <p class="routeName">Route 1</p>
+        <div class="routeInfo">
+          <p>distance</p>
+          <p>ETA</p>
+          <p>rating</p>
+          <button class="favorite"><img src="{{ url_for('static', filename='FavNoFill.png') }}" alt="favorite"></button>
         </div>
       {% endfor %}
 
@@ -76,6 +83,31 @@
         <button id="favoriteRoute">Favorite</button>
         <a href="/route-view"><button id="startRoute">Start Directions</button></a>
       </div>
+
+      <!-- Leaflet map script -->
+      <script>
+        var map = L.map('map').setView([39.25, -76.71], 16);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        var path = {{ path|tojson }};
+        console.log("Raw path nodes:", path);
+
+        if (path) {
+            var latlngs = path.map(function(geojson) {
+                var geom = JSON.parse(geojson);
+                return [geom.coordinates[1], geom.coordinates[0]];
+            });
+
+            var routeLine = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+            map.fitBounds(routeLine.getBounds());
+
+            window.routeNodes = latlngs;
+        }
+      </script>
+
     </div>
   </div>
 

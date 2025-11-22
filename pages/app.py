@@ -13,6 +13,18 @@ user_conn = psycopg2.connect(
     dbname="",
     user="",
     password="",
+user_conn = psycopg2.connect(
+    dbname="",
+    user="",
+    password="!",
+    host="",
+    port=""
+)
+
+map_conn = psycopg2.connect(
+    dbname="",
+    user="",
+    password="!",
     host="",
     port=""
 )
@@ -95,6 +107,9 @@ def create_account():
 def view_map():
     if request.method == 'POST':
         # get start and end location from index.html
+@app.route('/map-view', methods=['POST', 'GET'])
+def view_map():
+    if request.method == 'POST':
         start = request.form['startLocation']
         end = request.form['endLocation']
 
@@ -175,6 +190,28 @@ def star_route():
     user_id = session.get('user_id')
     rank = data.get("rank")
     geometry = data.get("geometry")
+        best_pair AS (
+            SELECT source_id, target_id, total_cost
+            FROM agg_costs
+            ORDER BY total_cost
+            LIMIT 1
+        )
+        SELECT ST_AsGeoJSON(n.geom) AS geom
+        FROM all_paths p
+        JOIN best_pair bp
+        ON p.source_id = bp.source_id AND p.target_id = bp.target_id
+        JOIN nodes n
+        ON p.node = n.id
+        ORDER BY p.seq;
+        """
+
+        cur.execute(query, (start, end))
+        rows = cur.fetchall()
+        cur.close()
+
+        path = [row[-1] for row in rows]
+        return render_template('selection.html', path=path, start=start, end=end)
+    return render_template('selection.html', path=None)
 
     if geometry is None:
         return jsonify({"error": "No geometry provided"}), 400
