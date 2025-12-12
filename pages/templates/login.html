@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Log In</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
-    </head>
-    <body>
-        <main>
-            <div style="text-align: center;">
-                <img src="{{ url_for('static', filename='GuideDawg(1)(1).png') }}" alt="GuideDawg logo" class="logo">
-                <div class="login-box">
-                    <div class = "login-header">
-                        <h1 style="display: inline;">Log In</h1>
-                        <p style="display: inline; margin-left: 10px;">or <a href="/create_account">Create an Account</a></p>
-                    </div>
-                        <form action="/login" method="POST">
-                        <div class = "input-group">
-                            <label>Email Address/Username</label>
-                            <input type="text" id="username" name="username" required><br><br>
-                        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+  <main class="login-layout">
+    <!-- Left column: login box -->
+    <div class="login-box">
+      <div class="login-header">
+        <h1>Log In</h1>
+        <p>or <a href="/create_account">Create an Account</a></p>
+      </div>
 
-                        <div class = "input-group">
-                            <label>Password</label>
-                            <input type="text" id="password" name="password" required><br><br>
-                        </div>
-                        <button type="submit">Log In</button>
-                    </form>
-                </div>
-            </div>
-        </main>
-    </body>
+      {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+
+      <form action="/login" method="POST" autocomplete="off">
+        <div class="input-group">
+          <label for="username">Email Address / Username</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit" class="btn-login">Log In</button>
+      </form>
+    </div>
+
+    <!-- Right column: large logo -->
+    <div class="logo-block">
+      <img src="{{ url_for('static', filename='GuideDawg(1)(1).PNG') }}" alt="GuideDawg logo" class="logo">
+    </div>
+  </main>
+</body>
 </html>
